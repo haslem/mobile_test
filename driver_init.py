@@ -31,3 +31,5 @@ driver = webdriver.Remote("http://localhost:4723/wd/hub", desired_cap)
 print('start wait')
 driver.implicitly_wait(30)
 print('end wait')
+
+

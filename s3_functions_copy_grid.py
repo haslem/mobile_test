@@ -18,42 +18,11 @@ import locators_mobile
 # }
 
 
-##emu
-#somehow also works on real device
-# desired_cap = {
-#   "platformName": "Android",
-#   #"deviceName": "Android Emulator",
-#   # #Redmi 4X
-#   # "udid": "7e25bb67d740",
-#   #Samsung S2
-#   #"deviceName": "001a38de4d76af",
-#   "deviceName": "Android",
-#   # #emulator
-#   # "udid": "emulator-5554",
-#   # # huawei
-#   # "udid": "WTM9K17224913440",
-#   #s3
-#   "udid": "4df134143e934f4d",
-#   # #Moto
-#   #"udid": "ZH33C2676B",
-#   # #Redmi 4x
-#   # "udid": "7e25bb67d740",
-#   #  #Nokia
-#   # "udid": "D1AGAD1762742739",
-  
-#   "appPackage": "cz.seznam.mapy",
-#   "appWaitActivity": "cz.seznam.mapy.MapActivity",
-#   "app": "C:\\my\\auto\\mobile\\mapy-cz-6-9-0.apk",
-#   "autoGrantPermissions": "true",
-#   "unicodeKeyboard" : "true",
-#   "resetKeyboard" : "true",
-#   #"noReset" : "true"
-# }
 
+def nokia():
 
-def s3():
-
-
+	##emu
+	#somehow also works on real device
 	desired_cap = {
 	  "platformName": "Android",
 	  #"deviceName": "Android Emulator",
@@ -62,8 +31,8 @@ def s3():
 	  #Samsung S2
 	  #"deviceName": "001a38de4d76af",
 	  "deviceName": "Android",
-	  #emulator
-	  "udid": "emulator-5554",
+	  # #emulator
+	  # "udid": "emulator-5554",
 	  # # huawei
 	  # "udid": "WTM9K17224913440",
 	  # #s3
@@ -72,8 +41,8 @@ def s3():
 	  #"udid": "ZH33C2676B",
 	  # #Redmi 4x
 	  # "udid": "7e25bb67d740",
-	  #  #Nokia
-	  # "udid": "D1AGAD1762742739",
+	   #Nokia
+	  "udid": "D1AGAD1762742739",
 	  
 	  "appPackage": "cz.seznam.mapy",
 	  "appWaitActivity": "cz.seznam.mapy.MapActivity",
@@ -91,10 +60,11 @@ def s3():
 
 	print('launched')
 	#driver = webdriver.Remote("http://localhost:4723/wd/hub", desired_cap)
-	driver = webdriver.Remote("http://localhost:4000/wd/hub", desired_cap)
+	driver = webdriver.Remote("http://localhost:4001/wd/hub", desired_cap)
 	print('start wait')
 	driver.implicitly_wait(30)
 	print('end wait')
+
 
 
 	def all_elements():
@@ -533,35 +503,13 @@ def s3():
 
 
 
-
-
 	def launch():
-
-
-		# all_elements()
-
-
-		# #go to map
-		# timeOut(tick = 2.0)
-		# goToMap()
-
-		# all_elements()
-
-
-		# #menu
-		# timeOut(tick = 2.0)
-		# menu()
-
-
-		#login check
-		#login()
 
 
 		handle_one_size = driver.get_window_size()
 		print(handle_one_size)
 
-
-
+	
 	#all_elements()
 	#go to map
 	timeOut(tick = 2.0)
@@ -572,4 +520,4 @@ def s3():
 	menu()
 
 
-	login()
+	login()	

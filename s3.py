@@ -11,135 +11,42 @@ def timeOut(delay = 100000000, tick = 1):
 	    pass
 
 
+#func.connect()
 
-
-
-##real
-# desired_cap = {
-#   "deviceName": "4df134143e934f4d",
-#   "platformName": "Android",
-#   "app": "C:\\my\\auto\\mobile\\mapy-cz-6-5-2.apk"
-# }
-
-
-##emu
-#somehow also works on real device
-# desired_cap = {
-#   "platformName": "Android",
-#   "deviceName": "Android Emulator",
-#   #"deviceName": "emulator-5554",
-#   "appPackage": "cz.seznam.mapy",
-#   "appWaitActivity": "cz.seznam.mapy.MapActivity",
-#   "app": "C:\\my\\auto\\mobile\\mapy-cz-6-5-2.apk",
-#   "autoGrantPermissions": "true"
-# }
-
-
-
-
-# driver = webdriver.Remote("http://localhost:4723/wd/hub", desired_cap)
-# print('start wait')
-# driver.implicitly_wait(30)
-# print('end wait')
-
-
-
-
+func.all_elements()
 #go to map
-#timeOut(tick = 2.0)
+timeOut(tick = 2.0)
 func.goToMap()
 
 
 
 # #go to map catalog
 # func.goToCatalog()
-
-
-
-
-
-#route planning
-#menu
-#timeOut(tick = 2.0)
-func.menu()
-# elem = driver.find_element_by_id('cz.seznam.mapy:id/menuButton')
-# driver.implicitly_wait(10)
 # timeOut()
-# elem.click()
-# print('menu clicked')
-
-# #route planing
-# elem = driver.find_element_by_xpath('/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout[1]/android.widget.RelativeLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.view.View/android.widget.ScrollView/android.widget.LinearLayout/android.widget.LinearLayout/android.widget.Button[3]')
-# elem.click()
+# func.scroll()
 
 
 
-# #close navigation
-# elem = driver.find_element_by_id('cz.seznam.mapy:id/closeButton')
-# elem.click()
+func.all_elements()
 
 
-# try:
-# 	elem = driver.find_element_by_id('cz.seznam.mapy:id/content')
-# 	print ('Error menu')
-# except:
-# 	print ('menu dissapear ok')	
+#menu
+timeOut(tick = 2.0)
+func.menu()
+
+
+
+#func.navigation()
 
 
 
 
-
-
-
-
-
-
-
-		
 
 # #search
-# elem = driver.find_element_by_id('cz.seznam.mapy:id/searchButton')
-# elem.click()
-# print('searchButton clicked')
+# func.search_button()
 
-
-
-# elem = driver.find_element_by_id('cz.seznam.mapy:id/input')
-# driver.implicitly_wait(5)
-# elem.send_keys('seznam')
-# print(type(elem))
-# driver.implicitly_wait(5)
-
-
-# driver.execute_script('mobile: performEditorAction', {'action': 'search'})
-# driver.implicitly_wait(5)
-
-
-
-
-# #scroll
-# scroll = TouchAction(driver)
-
-# scroll.press(x=480, y=761).move_to(x=469, y=430).release().perform()
-# print ('scrolled')
-
-
-
-
-
-# #tap
-# TouchAction(driver).tap(x=407, y=304).perform()
-
-
-
-
-
-
-#drag and drop
 # timeOut()
-# dd = TouchAction(driver)
-# dd.long_press(x=407, y=304).move_to(x=505, y=714).release().perform()
-# dd.press('cz.seznam.mapy:id/routePlannerView').move_to(x=555, y=143).release().perform()
+# func.search_input('seznam')
 
 
 
@@ -147,15 +54,28 @@ func.menu()
 
 
 
-#cz.seznam.mapy:id/accountArrow
-#	cz.seznam.mapy:id/searchButton
 
 #login check
 func.login()
 
 	
 
-#cz.seznam.mapy:id/accountName
+
+#timeOut()
+#func.menuMyMaps()
+#timeOut(tick = 3)
+
+
+
+
+
+
+
+
+
+
+#func.TC486()
+#func.TC487()
 
 
 handle_one_size = func.driver.get_window_size()

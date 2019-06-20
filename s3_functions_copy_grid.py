@@ -59,8 +59,8 @@ def nokia():
 
 
 	print('launched')
-	#driver = webdriver.Remote("http://localhost:4723/wd/hub", desired_cap)
-	driver = webdriver.Remote("http://localhost:4001/wd/hub", desired_cap)
+	driver = webdriver.Remote("http://localhost:4723/wd/hub", desired_cap)
+	#driver = webdriver.Remote("http://localhost:4001/wd/hub", desired_cap)
 	print('start wait')
 	driver.implicitly_wait(30)
 	print('end wait')
@@ -503,6 +503,50 @@ def nokia():
 
 
 
+
+
+
+
+	def offline_maps():
+		elem = driver.find_element_by_xpath(locators_mobile.menu['offline_maps'])
+		elem.click()
+
+	def search_maps(country):	
+		find = 0
+		while find == 0:
+			elem = driver.find_elements_by_id('cz.seznam.mapy:id/offlineCountryTitle')
+			for i in elem:
+				if i.get_attribute('text') == country:
+					print(i.get_attribute('text'))
+					print (i.location)
+					elem = i
+					find = 1
+					break
+			if find == 1:		
+				TouchAction(driver).tap(x=driver.get_window_size()['width']-40, y=i.location['y']).perform()		
+			else:
+				TouchAction(driver).press(x=driver.get_window_size()['width']/2, y=driver.get_window_size()['height']/2).move_to(x=driver.get_window_size()['width']/2, y=driver.get_window_size()['height']/2 - 50).release().perform()
+
+		#elem = driver.find_element_by_id('android:id/button1')
+		#elem.click()
+
+		#elem = driver.find_element_by_xpath('/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/androidx.appcompat.widget.LinearLayoutCompat/android.widget.FrameLayout/android.widget.ListView/android.widget.RelativeLayout[1]/android.widget.RadioButton')
+		#elem.click()
+
+
+		#cz.seznam.mapy:id/groupIcon
+		#cz.seznam.mapy:id/offlineCountryDownloadButton
+
+		
+		
+
+		
+		#handle_one_size = driver.get_window_size()
+		#print(handle_one_size)		
+
+
+
+
 	def launch():
 
 
@@ -518,6 +562,11 @@ def nokia():
 
 	timeOut(tick = 2.0)
 	menu()
+	offline_maps()
+	search_maps('Germany')
+	search_maps('Saxony')
 
 
-	login()	
+	#login()
+
+nokia()		

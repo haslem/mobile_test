@@ -8,50 +8,69 @@ import locators_mobile
 
 
 
-##real
 # desired_cap = {
-#   "deviceName": "4df134143e934f4d",
-	 #huawei
-	 #"deviceName": "WTM9K17224913440",
-#   "platformName": "Android",
-#   "app": "C:\\my\\auto\\mobile\\mapy-cz-6-5-2.apk"
-# }
+# 	  "platformName": "Android",
+# 	  #"deviceName": "Android Emulator",
+# 	  # #Redmi 4X
+# 	  # "udid": "7e25bb67d740",
+# 	  #Samsung S2
+# 	  #"deviceName": "001a38de4d76af",
+# 	  "deviceName": "Android",
+# 	  # #emulator
+# 	  # "udid": "emulator-5554",
+# 	  # # huawei
+# 	  # "udid": "WTM9K17224913440",
+# 	  # #s3
+# 	  # "udid": "4df134143e934f4d",
+# 	  # #LG small
+# 	  # "udid": "LGD160aa16aa2",
+# 	  # #Moto
+# 	  #"udid": "ZH33C2676B",
+# 	  # #Redmi 4x
+# 	  # "udid": "7e25bb67d740",
+# 	  # #Redmi 4x by WIFI
+# 	  # "udid": "192.168.0.188:5555",
+# 	  # #Huawei by WIFI
+# 	  # "udid": "192.168.0.180:5555",
+# 	  #Huawei
+# 	  "udid": "W3D7N16C20008324",
+# 	  # #Redmi 3S
+# 	  # "udid": "c51d1c8b7d53",
+# 	  #"udid": f"{ud_id}",
+# 	  #  #Nokia
+# 	  # "udid": "D1AGAD1762742739",
+	  
+# 	  "appPackage": "cz.seznam.mapy",
+# 	  "appWaitActivity": "cz.seznam.mapy.MapActivity",
+# 	  "app": "C:\\my\\auto\\mobile\\mapy-cz-6-9-0.apk",
+# 	  "autoGrantPermissions": "true",
+# 	  "unicodeKeyboard" : "true",
+# 	  "resetKeyboard" : "true",
+# 	  "noReset" : "true"
+# 	}
+
+# driver = webdriver.Remote("http://localhost:4723/wd/hub", desired_cap)	
 
 
-##emu
-#somehow also works on real device
-# desired_cap = {
-#   "platformName": "Android",
-#   #"deviceName": "Android Emulator",
-#   # #Redmi 4X
-#   # "udid": "7e25bb67d740",
-#   #Samsung S2
-#   #"deviceName": "001a38de4d76af",
-#   "deviceName": "Android",
-#   # #emulator
-#   # "udid": "emulator-5554",
-#   # # huawei
-#   # "udid": "WTM9K17224913440",
-#   #s3
-#   "udid": "4df134143e934f4d",
-#   # #Moto
-#   #"udid": "ZH33C2676B",
-#   # #Redmi 4x
-#   # "udid": "7e25bb67d740",
-#   #  #Nokia
-#   # "udid": "D1AGAD1762742739",
-  
-#   "appPackage": "cz.seznam.mapy",
-#   "appWaitActivity": "cz.seznam.mapy.MapActivity",
-#   "app": "C:\\my\\auto\\mobile\\mapy-cz-6-9-0.apk",
-#   "autoGrantPermissions": "true",
-#   "unicodeKeyboard" : "true",
-#   "resetKeyboard" : "true",
-#   #"noReset" : "true"
-# }
+# class Menu(object):
+# 	"""docstring for Menu"""
+# 	def __init__(self):
+# 		elem = driver.find_element_by_id('cz.seznam.mapy:id/menuButton')
+# 		elem.click()
+		
+
+
 
 
 def s3():
+
+	# if device == 'redmi4x':
+	# 	ud_id = "7e25bb67d740"
+	# 	port = 4000
+	# else:
+	# 	ud_id = "D1AGAD1762742739"
+	# 	port = 4001	
+
 
 
 	desired_cap = {
@@ -66,18 +85,31 @@ def s3():
 	  # "udid": "emulator-5554",
 	  # # huawei
 	  # "udid": "WTM9K17224913440",
-	  #s3
-	  "udid": "4df134143e934f4d",
+	  # #s3
+	  # "udid": "4df134143e934f4d",
+	  # #LG small
+	  # "udid": "LGD160aa16aa2",
 	  # #Moto
 	  #"udid": "ZH33C2676B",
-	  # #Redmi 4x
-	  # "udid": "7e25bb67d740",
+	  #Redmi 4x
+	  "udid": "7e25bb67d740",
+	  # #Redmi 4x by WIFI
+	  # "udid": "192.168.0.186:5555",
+	  # #Huawei by WIFI
+	  # "udid": "192.168.0.180:5555",
+	  # #Huawei
+	  # "udid": "W3D7N16C20008324",
+	  # #Redmi 3S
+	  # "udid": "c51d1c8b7d53",
+	  #"udid": f"{ud_id}",
 	  #  #Nokia
 	  # "udid": "D1AGAD1762742739",
+
+	  #'browserName': 'Chrome',
 	  
 	  "appPackage": "cz.seznam.mapy",
 	  "appWaitActivity": "cz.seznam.mapy.MapActivity",
-	  "app": "C:\\my\\auto\\mobile\\mapy-cz-6-9-0.apk",
+	  "app": "C:\\my\\auto\\mobile\\Mapy_v6.10.0_apkpure.apk",
 	  "autoGrantPermissions": "true",
 	  "unicodeKeyboard" : "true",
 	  "resetKeyboard" : "true",
@@ -85,16 +117,17 @@ def s3():
 	}
 
 
-
-
-
-
+		
 	print('launched')
+	#driver = webdriver.Remote(f"http://localhost:{port}/wd/hub", desired_cap)
 	driver = webdriver.Remote("http://localhost:4723/wd/hub", desired_cap)
 	#driver = webdriver.Remote("http://localhost:4000/wd/hub", desired_cap)
 	print('start wait')
+	#driver.get("http://www.mapy.cz");
 	driver.implicitly_wait(30)
 	print('end wait')
+
+
 
 
 	def all_elements():
@@ -113,6 +146,8 @@ def s3():
 
 	def menu():
 		elem = driver.find_element_by_id('cz.seznam.mapy:id/menuButton')
+		#elem = driver.find_element_by_id('cz.seznam.mapy:id/mapStyleSwitch')
+		print(elem.size, 'elem size')
 		#elem = driver.find_element_by_xpath('//android.widget.ImageButton[@content-desc="Menu"]')
 
 		# elem = driver.find_element_by_xpath('/hierarchy/android.widget.FrameLayout')
@@ -204,6 +239,10 @@ def s3():
 		#TouchAction(driver).tap(x=driver.get_window_size()['width'] * 0.5694, y=driver.get_window_size()['height'] * 0.439).perform()
 
 		elem = driver.find_element_by_id('cz.seznam.mapy:id/userName')
+		account_name = elem.get_attribute('text')
+		if account_name != 'Log in':
+			print('Already logged in')
+			return
 		elem.click()
 		timeOut(tick = 2.0)
 
@@ -309,6 +348,18 @@ def s3():
 			print ('Log in success')
 		else:
 		    print('Log in failed')
+
+
+	def logout():
+		try:
+			elem = driver.find_element_by_id('cz.seznam.mapy:id/accountName')
+			elem.click()
+			elem = driver.find_element_by_xpath('/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout[1]/android.widget.RelativeLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.view.ViewGroup/android.widget.ScrollView/android.widget.LinearLayout/android.widget.LinearLayout/android.widget.Button')
+			elem.click()
+			print('Logout success')
+		except:
+			print('Already Logout')	
+
 
 
 	def menuMyMaps():
@@ -550,7 +601,7 @@ def s3():
 			if find == 1:		
 				TouchAction(driver).tap(x=driver.get_window_size()['width']-40, y=i.location['y']).perform()		
 			else:
-				TouchAction(driver).press(x=driver.get_window_size()['width']/2, y=driver.get_window_size()['height']/2).move_to(x=driver.get_window_size()['width']/2, y=driver.get_window_size()['height']/2 - 50).release().perform()
+				TouchAction(driver).press(x=driver.get_window_size()['width']/2, y=driver.get_window_size()['height']/2).move_to(x=driver.get_window_size()['width']/2, y=driver.get_window_size()['height']/2 - 20).release().perform()
 
 		#elem = driver.find_element_by_id('android:id/button1')
 		#elem.click()
@@ -570,6 +621,28 @@ def s3():
 		#print(handle_one_size)		
 
 
+	def download_map():
+		elem = driver.find_element_by_id('android:id/button1')
+		elem.click()
+		
+		try:
+			elem = driver.find_element_by_id('cz.seznam.mapy:id/storageCheck')
+			elem.click()
+		except:
+			pass	
+
+		print("downloading...")
+
+		try:
+			while True:
+				elem = driver.find_element_by_id('cz.seznam.mapy:id/overallProgress')	
+		except:
+			print('map was downloaded')
+				
+
+
+	def check_download():
+		pass
 
 
 
@@ -606,14 +679,33 @@ def s3():
 	#goToMap()
 
 
-	timeOut(tick = 2.0)
+	#timeOut(tick = 2.0)
+	#all_elements()
+
 	menu()
-	offline_maps()
-	search_maps('Germany')
-	search_maps('Saxony')
 
 
-	#login()
+
+	# #all_elements()
+	# offline_maps()
+
+	# search_maps('Bahrain')
+	# download_map()
+
+	# #download Saxony
+	# search_maps('Germany')
+	# search_maps('Saxony')
+	# download_map()
 
 
-s3()	
+
+	login()
+	logout()
+	
+
+
+if __name__ == '__main__':
+	s3()
+
+
+

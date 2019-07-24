@@ -6,6 +6,17 @@ from appium.webdriver.common.multi_action import MultiAction
 import locators_mobile
 
 
+class Capabilities():
+	"""docstring for Capabilities"""
+	def __init__(self, arg):
+		self.arg = arg
+		
+
+class Device():
+	"""docstring for Device"""
+	def __init__(self, arg):
+		self.arg = arg
+		
 
 
 ##real
@@ -18,11 +29,42 @@ import locators_mobile
 # }
 
 
+##emu
+#somehow also works on real device
+# desired_cap = {
+#   "platformName": "Android",
+#   #"deviceName": "Android Emulator",
+#   # #Redmi 4X
+#   # "udid": "7e25bb67d740",
+#   #Samsung S2
+#   #"deviceName": "001a38de4d76af",
+#   "deviceName": "Android",
+#   # #emulator
+#   # "udid": "emulator-5554",
+#   # # huawei
+#   # "udid": "WTM9K17224913440",
+#   #s3
+#   "udid": "4df134143e934f4d",
+#   # #Moto
+#   #"udid": "ZH33C2676B",
+#   # #Redmi 4x
+#   # "udid": "7e25bb67d740",
+#   #  #Nokia
+#   # "udid": "D1AGAD1762742739",
+  
+#   "appPackage": "cz.seznam.mapy",
+#   "appWaitActivity": "cz.seznam.mapy.MapActivity",
+#   "app": "C:\\my\\auto\\mobile\\mapy-cz-6-9-0.apk",
+#   "autoGrantPermissions": "true",
+#   "unicodeKeyboard" : "true",
+#   "resetKeyboard" : "true",
+#   #"noReset" : "true"
+# }
 
-def nokia():
 
-	##emu
-	#somehow also works on real device
+def s3():
+
+
 	desired_cap = {
 	  "platformName": "Android",
 	  #"deviceName": "Android Emulator",
@@ -32,19 +74,15 @@ def nokia():
 	  #"deviceName": "001a38de4d76af",
 	  "deviceName": "Android",
 	  # #emulator
-	  # "udid": "emulator-5558",
+	  # "udid": "emulator-5554",
 	  # # huawei
 	  # "udid": "WTM9K17224913440",
-	  # # huawei
-	  # "udid": "WTM9KA9681506865",
-	  # #s3
-	  # "udid": "4df134143e934f4d",
+	  #s3
+	  "udid": "4df134143e934f4d",
 	  # #Moto
 	  #"udid": "ZH33C2676B",
 	  # #Redmi 4x
 	  # "udid": "7e25bb67d740",
-	  #Redmi 4x by WIFI
-	  "udid": "192.168.0.188:5555",
 	  #  #Nokia
 	  # "udid": "D1AGAD1762742739",
 	  
@@ -63,12 +101,11 @@ def nokia():
 
 
 	print('launched')
-	#driver = webdriver.Remote("http://localhost:4723/wd/hub", desired_cap)
-	driver = webdriver.Remote("http://localhost:4001/wd/hub", desired_cap)
+	driver = webdriver.Remote("http://localhost:4723/wd/hub", desired_cap)
+	#driver = webdriver.Remote("http://localhost:4000/wd/hub", desired_cap)
 	print('start wait')
 	driver.implicitly_wait(30)
 	print('end wait')
-
 
 
 	def all_elements():
@@ -178,10 +215,6 @@ def nokia():
 		#TouchAction(driver).tap(x=driver.get_window_size()['width'] * 0.5694, y=driver.get_window_size()['height'] * 0.439).perform()
 
 		elem = driver.find_element_by_id('cz.seznam.mapy:id/userName')
-		account_name = elem.get_attribute('text')
-		if account_name != 'Log in':
-			print('Already logged in')
-			return
 		elem.click()
 		timeOut(tick = 2.0)
 
@@ -287,20 +320,6 @@ def nokia():
 			print ('Log in success')
 		else:
 		    print('Log in failed')
-
-
-
-	def logout():
-		try:
-			elem = driver.find_element_by_id('cz.seznam.mapy:id/accountName')
-			elem.click()
-			elem = driver.find_element_by_xpath('/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout[1]/android.widget.RelativeLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.view.ViewGroup/android.widget.ScrollView/android.widget.LinearLayout/android.widget.LinearLayout/android.widget.Button')
-			elem.click()
-			print('Logout success')
-		except:
-			print('Already Logout')	   
-
-
 
 
 	def menuMyMaps():
@@ -524,22 +543,9 @@ def nokia():
 		elem[0].click()
 
 
-
-
-
-
-
 	def offline_maps():
-		try:
-			elem = driver.find_element_by_xpath(locators_mobile.menu['offline_maps'])
-			elem.click()
-		except:
-			print('should scroll')
-			TouchAction(driver).press(x=driver.get_window_size()['width']/2, y=driver.get_window_size()['height']/2).move_to(x=driver.get_window_size()['width']/2, y=driver.get_window_size()['height']/2 - 50).release().perform()
-			elem = driver.find_element_by_xpath(locators_mobile.menu['offline_maps'])
-			elem.click()
-
-				
+		elem = driver.find_element_by_xpath(locators_mobile.menu['offline_maps'])
+		elem.click()
 
 	def search_maps(country):	
 		find = 0
@@ -577,41 +583,48 @@ def nokia():
 
 
 
+
 	def launch():
+
+
+		# all_elements()
+
+
+		# #go to map
+		# timeOut(tick = 2.0)
+		# goToMap()
+
+		# all_elements()
+
+
+		# #menu
+		# timeOut(tick = 2.0)
+		# menu()
+
+
+		#login check
+		#login()
 
 
 		handle_one_size = driver.get_window_size()
 		print(handle_one_size)
 
-	
+
+
 	#all_elements()
 	#go to map
 	timeOut(tick = 2.0)
 	#goToMap()
 
 
-	#timeOut(tick = 2.0)
+	timeOut(tick = 2.0)
 	menu()
-	
+	offline_maps()
+	search_maps('Germany')
+	search_maps('Saxony')
 
 
-	# #all_elements()
-	# offline_maps()
-
-	# search_maps('Bahrain')
-	# download_map()
-
-	# #download Saxony
-	# search_maps('Germany')
-	# search_maps('Saxony')
-	# download_map()
+	#login()
 
 
-
-
-
-	login()
-	logout()
-
-if __name__ == '__main__':
-	nokia()		
+s3()	

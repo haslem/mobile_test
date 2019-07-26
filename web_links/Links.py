@@ -24,13 +24,17 @@ def chrome_prod():
 	driver.maximize_window()
 	production = "https://en.mapy.cz/zakladni?x=14.3999996&y=50.0499992&z=11"
 	production_max_zoom = "https://en.mapy.cz/zakladni?x=14.3999996&y=50.0499992&z=18"
-	test = "https://mapy.test.dszn.cz/zakladni?x=14.3999996&y=50.0499992&z=11"
+	test = "https://en.mapy.test.dszn.cz/zakladni?x=14.3999996&y=50.0499992&z=11"
+	test_max_zoom = "https://en.mapy.test.dszn.cz/zakladni?x=14.3999996&y=50.0499992&z=18"
 	dev = "https://mapy.dev.dszn.cz/zakladni?x=14.3999996&y=50.0499992&z=11"
+	
+	#production = test
+
 	driver.get(production)
 
 
 
-	class TransportType(object):
+	class TransportType_planning(object):
 		"""docstring for TransportType"""
 		def __init__(self):
 			self.all_types = driver.find_elements_by_class_name('type-radiocheck')
@@ -42,7 +46,45 @@ def chrome_prod():
 			self.all_types[0].click()
 
 		def byke(self):
-			self.all_types[3].click()		
+			self.all_types[3].click()
+
+
+		
+
+	class TransportType_trip(object):
+		"""docstring for TransportType"""
+		def __init__(self):
+			self.all_types = driver.find_elements_by_class_name('type-radiocheck')
+
+
+		def foot(self):
+			self.all_types[0].click()
+
+		def byke(self):
+			self.all_types[1].click()
+
+		def max_dist(self):
+			elem = driver.find_element_by_class_name('circuit-bar-button')
+			ActionChains(driver).drag_and_drop_by_offset(elem,1000, 1000).perform()	
+
+
+	class ChangeMap(object):
+		def __init__(self):
+			self.elem = driver.find_element_by_css_selector('.icon.mapset').click()
+			self.maps =  driver.find_elements_by_tag_name('li')
+
+
+		def base(self):
+			self.maps[-16].click()					
+
+		def historic(self):
+			self.maps[-4].click()
+
+		def traffic(self):
+			self.maps[-7].click()		
+
+
+
 
 	
 	def share_button():
@@ -73,26 +115,6 @@ def chrome_prod():
 		driver.switch_to_window(handle[0])
 
 
-	def delete_all():
-		
-		elem = driver.find_element_by_xpath('//*[@id="layout-bar"]/button[3]/span[2]')
-		elem.click()
-
-		#elem = driver.find_elements_by_class_name('head-section')
-		elem = driver.find_elements_by_css_selector('items.sortable.items.public')
-		#elem = driver.find_elements(By.CLASS_NAME, "folder")
-		#elem = driver.find_elements(By.CSS_SELECTOR, '.icon.tools')
-		#elem = driver.find_elements(By.CSS_SELECTOR, '.icon.tools')
-		print(len(elem))
-		#elem.click()
-		#elem[-1].click()
-		#elem = driver.find_elements(By.CLASS_NAME, 'contextmenu-item')
-		#elem[-1].click()
-
-		#elem = driver.find_element_by_xpath('/html/body/div[2]/div/div[2]/button[1]')
-		#elem.click()
-
-		
 
 
 	def search_link(search_text):
@@ -596,240 +618,121 @@ def chrome_prod():
 
 
 
+	def vylet():
+		elem = driver.find_element_by_id('map')
 
 
-
-
-
-
-
-
-
-
-
-
-
-	def zoom_check():
-		#zoom
-		elem = driver.find_element_by_xpath('//*[@id="map"]/div[2]/div[2]/div[6]/div/button[1]')
-		elem.click()
-		cur_url = driver.current_url
-		timeOut(tick = 0.5)
-		try:
-			cur_url[-2:] == '10'
-			print('zoom out ok')
-		except:
-			print ('error zoom out')	
-
-		elem = driver.find_element_by_xpath('//*[@id="map"]/div[2]/div[2]/div[6]/div/button[2]')
-		elem.click()
-		cur_url = driver.current_url
-		try:
-			cur_url[-2:] == '11'
-			print('zoom in ok')
-		except:
-			print ('error zoom in')
-
-
-
-
-	def tools_check():
-		#nastroje
-		elem = driver.find_element_by_xpath('//*[@id="map"]/div[2]/div[2]/div[7]/div/button[1]')
-		elem.click()
-		
-		try:	
-		    elem = driver.find_element_by_xpath('//*[@id="mapycz"]/div[5]')	
-		except:
-		    print ('no tools pop-up')
-		elem = driver.find_element_by_xpath('//*[@id="map"]/div[2]/div[2]/div[7]/div/button[1]')
-		elem.click()
-		try:	
-		    elem = driver.find_element_by_xpath('//*[@id="mapycz"]/div[5]')	
-		except:
-		    print ('tools pop-up hiden')    
-
-
-
-
-
-	def reportError_check():
-		#report error
-		elem = driver.find_element_by_xpath('//*[@id="map"]/div[2]/div[2]/div[7]/div/button[2]')
-		elem.click()
-		
-		try:	
-		    elem = driver.find_element_by_xpath('//*[@id="mapycz"]/div[5]')	
-		except:
-		    print ('no error pop-up')
-
-		elem = driver.find_element_by_xpath('//*[@id="map"]/div[2]/div[2]/div[7]/div/button[2]')
-		elem.click()
-		try:	
-		    elem = driver.find_element_by_xpath('//*[@id="mapycz"]/div[5]')	
-		except:
-		    print ('error pop-up hiden')
-
-
-
-
-
-	def resize_check():
-		#resize
-		elem = driver.find_element_by_xpath('//*[@id="resizer"]')
-		elem.click()
-
-
-		body= driver.find_element_by_tag_name("Body").get_attribute("class")
-		print (body)
-
-		cur_url = driver.current_url
-		try:
-			cur_url[-1] == '0'
-			print('resize ok')
-		except:
-			print ('error resize')
-
-
-
-		driver.get(production + '&l=0')
-		elem = driver.find_element_by_id('resizer')
-		elem.click()
-		print('resize back')
-		
-		timeOut(tick = 2.0)
-
-
-		body= driver.find_element_by_tag_name("Body").get_attribute("class")
-		print (body)
-
-		cur_url = driver.current_url
-		try:
-			cur_url[-1] == '1'
-			print('resize back ok')
-		except:
-			print ('error resize back')
-
-
-
-
-
-
-
-	def measure_check():
-		timeOut()	
-		elem = driver.find_element_by_xpath('//*[@id="map"]/div[2]/div[2]/div[7]/div/button[1]/span').click()
-		timeOut()
-
-
-
-		elem = driver.find_element_by_xpath(locators.tools['my_points']).click()
-		timeOut()
-
-		elem = driver.find_element_by_xpath('//*[@id="map"]')
+		# ActionChains(driver).move_by_offset(100, 100).context_click().perform()
 		# timeOut()
 
-		
-		# #two_points
-		# elem.click()
-		# ActionChains(driver).move_by_offset(50, 50).click().perform()
-
-
-		#many points
-		for i in range(1000):
-			if i%50 == 0:
-				#ActionChains(driver).send_keys(u'\ue015').perform()
-				ActionChains(driver).click_and_hold(elem).move_by_offset(100, 100).release().perform()
-			else:
-				ActionChains(driver).move_by_offset(-10, 0).click().perform()	
+		timeOut()
+		ActionChains(driver).move_to_element(elem).context_click().perform()
 		timeOut()
 
 
 
-		#ukoncit mereni button
-		elem = driver.find_element_by_xpath('//*[@id="scene"]/button').click()
-		#elem = driver.find_element_by_xpath('//*[@id="map"]').click()
+		elem = driver.find_element_by_partial_link_text('Trip')
+		elem.click()
+
 		timeOut()
 
+		trip = TransportType_trip()
+		trip.byke()
+		timeOut()
+		trip.max_dist()
+		tools_share('Unsaved trip byke max')
 
 
-		#save mereni
-		elem = driver.find_element_by_xpath('//*[@id="distance-meter"]/div/div[1]/div[1]/div[2]/div[1]/div[1]/button').click()
+		#save
+		elem = driver.find_elements(By.CSS_SELECTOR, "div[class='icon-action']")
+		elem[0].click()
 		elem = driver.find_element_by_xpath('/html/body/div[2]/div/div[4]/button[1]').click()
 
 
+		tools_share('Saved trip byke max')
 
 
 
-		elem = driver.find_element_by_xpath('/html/body/div/div[2]/div/div[2]/div[1]/div[2]/div/div[2]/div[2]/div/p/span[1]')
-		#print (elem.get_attribute('innerHTML'))
-		gain = elem.get_attribute('innerHTML')
-		print (gain, 'gain')
 
+	def vylet_places():
 
-		elem = driver.find_element_by_xpath('/html/body/div/div[2]/div/div[2]/div[1]/div[2]/div/div[2]/div[2]/div/p/span[2]')
-		#print (elem.get_attribute('innerHTML'))
-		loss = elem.get_attribute('innerHTML')
-		print (loss, 'loss')
+		search_link('Slechtova restaurace')
+		elem = driver.find_element_by_id('map')
 
-
-
-		elem = driver.find_element_by_xpath('/html/body/div/div[2]/div/div[2]/div[1]/div[2]/div/div[2]/div[2]/div/div/div[6]/span[1]')
-		#print (elem.get_attribute('innerHTML'))
-		low = elem.get_attribute('innerHTML')
-		print (low, 'lowest')
-
-
-
-		elem = driver.find_element_by_xpath('/html/body/div/div[2]/div/div[2]/div[1]/div[2]/div/div[2]/div[2]/div/div/div[7]/span[1]')
-		#print (elem.get_attribute('innerHTML'))
-		high = elem.get_attribute('innerHTML')
-		print (high, 'highest')
-
-
-#input-search
-	def search_check():
-		elem = driver.find_element_by_xpath('//*[@id="input-search"]').send_keys( "Leeds" )
 		timeOut()
-		elem = driver.find_element_by_xpath('//*[@id="input-search"]').send_keys(u'\ue007')
-		#timeOut(tick = 0.3)
-		#elem = driver.find_element_by_xpath('//*[@id="search"]/form/span').click()
-		timeOut(tick = 3.0)
-		#//*[@id="search"]/div[1]/img
+		ActionChains(driver).move_to_element(elem).context_click().perform()
+		timeOut()
 
+		elem = driver.find_element_by_partial_link_text('Trip')
+		elem.click()
 
-	def click_6000():
-		pass
-		# elem = driver.find_element_by_id('map')
-		# print (elem.size)
+		timeOut()
 
-
-		# actionChains = webdriver.ActionChains(driver)
-
-		# #scroll = TouchAction(driver)
-		# #scroll.press(x=480, y=761).move_to(x=469, y=430).release().perform()
-
-			
+		trip = TransportType_trip()
+		#trip.foot()
+		#timeOut()
+		#trip.max_dist()
+		tools_share('Unsaved trip foot with places')
 
 
 
-
-		
-
-
-
-
-	    
+		#save
+		elem = driver.find_elements(By.CSS_SELECTOR, "div[class='icon-action']")
+		elem[0].click()
+		elem = driver.find_element_by_xpath('/html/body/div[2]/div/div[4]/button[1]').click()
 
 
-		             			
+		tools_share('Saved trip foot with places')
 
 
 
+	def map():
+		url = driver.current_url
+		driver.get(url[:-2] + '19')
+
+		tools_share('Base map max zoom')
+
+		#change map button
+		elem = driver.find_element_by_css_selector('.icon.mapset').click()
+		elem = driver.find_element_by_class_name('letecka').click()
+		tools_share('Aerial map max zoom')
+
+
+		#traffic
+		elem = driver.find_element_by_css_selector('.icon.mapset').click()
+		elem = driver.find_element_by_class_name('dopravni').click()
+		tools_share('Traffic map')
+
+
+		#historic
+		elem = driver.find_element_by_css_selector('.icon.mapset').click()
+		elem = driver.find_element_by_xpath('//*[@id="mapset-switch"]/ul[2]/li[12]').click()
+		tools_share('Historic map')
+
+
+		#base
+		elem = driver.find_element_by_css_selector('.icon.mapset').click()
+		elem = driver.find_element_by_xpath('//*[@id="mapset-switch"]/ul[2]/li[1]').click()	
+
+		elem = driver.find_element_by_css_selector('.icon.ophoto').click()		
+		tools_share('Aerial from button')
+
+
+	def panorama():
+		driver.get(production + '&pano=1')
+		#elem = driver.find_element_by_id('map')
+		elem = driver.find_element_by_css_selector('.icon.mapset')
+		ActionChains(driver).move_to_element_with_offset(elem, 150, 150).click().perform()
+
+		#ActionChains(driver).move_by_offset(150, 150).perform()
+		tools_share('Panorama')
 
 
 
-
+	def d3():
+		elem = driver.find_element_by_class_name('left3d-btn').click()
+		timeOut(tick = 2.0)
+		tools_share('3D')
 
 
 
@@ -857,7 +760,7 @@ def chrome_prod():
 
 	poi_detail()
 
-	driver.get(production_max_zoom)
+	driver.get(test_max_zoom)
 	timeOut()
 	coor()
 
@@ -865,6 +768,27 @@ def chrome_prod():
 	planning_unsaved()
 	driver.get(production)
 	planning_saved()
+
+
+	driver.get(production)
+	vylet()
+	driver.get(production)
+	vylet_places()
+
+
+	driver.get(production)
+	map()
+
+
+	driver.get(production)
+	panorama()
+
+
+	driver.get(production)
+	d3()
+
+
+
 
 	#a = TransportType()
 	#a.length()

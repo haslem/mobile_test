@@ -6,59 +6,8 @@ from appium.webdriver.common.multi_action import MultiAction
 import locators_mobile
 
 
-
-
-# desired_cap = {
-# 	  "platformName": "Android",
-# 	  #"deviceName": "Android Emulator",
-# 	  # #Redmi 4X
-# 	  # "udid": "7e25bb67d740",
-# 	  #Samsung S2
-# 	  #"deviceName": "001a38de4d76af",
-# 	  "deviceName": "Android",
-# 	  # #emulator
-# 	  # "udid": "emulator-5554",
-# 	  # # huawei
-# 	  # "udid": "WTM9K17224913440",
-# 	  # #s3
-# 	  # "udid": "4df134143e934f4d",
-# 	  # #LG small
-# 	  # "udid": "LGD160aa16aa2",
-# 	  # #Moto
-# 	  #"udid": "ZH33C2676B",
-# 	  # #Redmi 4x
-# 	  # "udid": "7e25bb67d740",
-# 	  # #Redmi 4x by WIFI
-# 	  # "udid": "192.168.0.188:5555",
-# 	  # #Huawei by WIFI
-# 	  # "udid": "192.168.0.180:5555",
-# 	  #Huawei
-# 	  "udid": "W3D7N16C20008324",
-# 	  # #Redmi 3S
-# 	  # "udid": "c51d1c8b7d53",
-# 	  #"udid": f"{ud_id}",
-# 	  #  #Nokia
-# 	  # "udid": "D1AGAD1762742739",
-	  
-# 	  "appPackage": "cz.seznam.mapy",
-# 	  "appWaitActivity": "cz.seznam.mapy.MapActivity",
-# 	  "app": "C:\\my\\auto\\mobile\\mapy-cz-6-9-0.apk",
-# 	  "autoGrantPermissions": "true",
-# 	  "unicodeKeyboard" : "true",
-# 	  "resetKeyboard" : "true",
-# 	  "noReset" : "true"
-# 	}
-
-# driver = webdriver.Remote("http://localhost:4723/wd/hub", desired_cap)	
-
-
-# class Menu(object):
-# 	"""docstring for Menu"""
-# 	def __init__(self):
-# 		elem = driver.find_element_by_id('cz.seznam.mapy:id/menuButton')
-# 		elem.click()
-		
-
+from selenium.webdriver.common.action_chains import ActionChains
+from selenium.webdriver.common.touch_actions import TouchActions as TouchActionSelenium
 
 
 
@@ -76,10 +25,14 @@ def s3():
 	desired_cap = {
 	  "platformName": "Android",
 	  #"deviceName": "Android Emulator",
-	  # #Redmi 4X
-	  # "udid": "7e25bb67d740",
+	  #Redmi 4X
+	  "udid": "7e25bb67d740",
 	  #Samsung S2
 	  #"deviceName": "001a38de4d76af",
+	  # #Samsung S6
+	  # "udid": "02157df29b72ad22",
+	  # #Samsung S6 by Wi-fi
+	  # "udid": "192.168.0.138:5555",
 	  "deviceName": "Android",
 	  # #emulator
 	  # "udid": "emulator-5554",
@@ -91,8 +44,8 @@ def s3():
 	  # "udid": "LGD160aa16aa2",
 	  # #Moto
 	  #"udid": "ZH33C2676B",
-	  #Redmi 4x
-	  "udid": "7e25bb67d740",
+	  # #Redmi 4x
+	  # "udid": "7e25bb67d740",
 	  # #Redmi 4x by WIFI
 	  # "udid": "192.168.0.186:5555",
 	  # #Huawei by WIFI
@@ -104,6 +57,8 @@ def s3():
 	  #"udid": f"{ud_id}",
 	  #  #Nokia
 	  # "udid": "D1AGAD1762742739",
+	  #  #Nokia by WIFI
+	  # "udid": "192.168.0.142:5555",
 
 	  #'browserName': 'Chrome',
 	  
@@ -129,9 +84,166 @@ def s3():
 
 
 
+	class Menu(object):
+		"""docstring for ClassName"""
+		#def menuButton(self):
+		def __init__(self):	
+			self.elem = driver.find_element_by_id(locators_mobile.map_screen['menu']).click()
+		
+		def buttons(self):
+			self.elem = driver.find_element_by_id('cz.seznam.mapy:id/content')
+			TouchAction(driver).long_press(self.elem).move_to(x=100, y=100).release().perform()
+
+			self.elements = driver.find_elements_by_class_name('android.widget.Button')
+			return self.elements
+
+		def offline_maps(self):
+			self.all_buttons = self.buttons()
+			for i in self.all_buttons:
+				if i.get_attribute('text') == 'Offline maps':
+					i.click()
+					break
+
+		def places_and_routes(self):
+			self.all_buttons = self.buttons()
+			for i in self.all_buttons:
+				if i.get_attribute('text') == 'Places and routes':
+					i.click()
+					break
+					
+
+		def activities(self):
+			self.all_buttons = self.buttons()
+			for i in self.all_buttons:
+				if i.get_attribute('text') == 'Activities':
+					i.click()
+					break
+					
+
+
+		def route_planning(self):
+			self.all_buttons = self.buttons()
+			for i in self.all_buttons:
+				if i.get_attribute('text') == 'Route planning':
+					i.click()
+					break
+					
+
+		def trips_nearby(self):
+			self.all_buttons = self.buttons()
+			for i in self.all_buttons:
+				if i.get_attribute('text') == 'Trips nearby':
+					i.click()
+					break
+
+
+		def start_tracker(self):
+			self.all_buttons = self.buttons()
+			for i in self.all_buttons:
+				if i.get_attribute('text') == 'Start Tracker':
+					i.click()
+					break
+					
+
+		def report_problem(self):
+			self.all_buttons = self.buttons()
+			for i in self.all_buttons:
+				if i.get_attribute('text') == 'Report a problem':
+					i.click()
+					break
+
+
+		def first_aid(self):
+			self.all_buttons = self.buttons()
+			for i in self.all_buttons:
+				if i.get_attribute('text') == 'First aid':
+					i.click()
+					break
+					
+
+		def about(self):
+			self.all_buttons = self.buttons()
+			for i in self.all_buttons:
+				if i.get_attribute('text') == 'About Mapy.cz':
+					i.click()
+					break																								
+
+
+		# #by locators
+		# def offlineMaps(self):
+		# 	self.elem = driver.find_element_by_xpath(locators_mobile.menu['offline_maps']).click()
+
+		
+		# def places_and_routes(self):	
+		# 	self.elem = driver.find_element_by_xpath(locators_mobile.menu['places_and_routes']).click()
+
+
+
+		# def activities(self):	
+		# 	self.elem = driver.find_element_by_xpath(locators_mobile.menu['activities']).click()
+
+
+		# def report(self):	
+		# 	self.elem = driver.find_element_by_xpath(locators_mobile.menu['report']).click()
+
+		# def route_planning(self):	
+		# 	self.elem = driver.find_element_by_xpath(locators_mobile.menu['route_planning']).click()
+
+		# def trips(self):	
+		# 	self.elem = driver.find_element_by_xpath(locators_mobile.menu['trips']).click()
+
+
+
+
+		def login(self):
+			self.elem = driver.find_element_by_id('cz.seznam.mapy:id/userName')
+			self.account_name = self.elem.get_attribute('text')
+			if self.account_name != 'Log in':
+				print('Already logged in')
+				return
+			self.elem.click()
+			timeOut(tick = 2.0)
+
+		def logout(self):
+			self.elem = driver.find_element_by_id('cz.seznam.mapy:id/userName').click()
+			
+			self.elem = driver.find_element_by_xpath('/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout[1]/android.widget.RelativeLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.view.ViewGroup/android.widget.ScrollView/android.widget.LinearLayout/android.widget.LinearLayout/android.widget.Button').click()
+
+
+
+
+
+
+	class LoginPage(object):
+		def user_name(self, user_name):
+			self.user_name = user_name
+			self.elem = driver.find_element_by_id(locators_mobile.sign_in['email']).send_keys(user_name)
+
+		def password(self, password):
+			self.password = password
+			self.elem = driver.find_element_by_id(locators_mobile.sign_in['password']).send_keys(password)
+
+		def sign_in_button(self):
+			self.elem = driver.find_element_by_xpath(locators_mobile.sign_in['sign_in']).click()	
+									
+		def check_login(self):
+			self.elem = driver.find_element_by_id('cz.seznam.mapy:id/userName')
+			self.user_name = self.elem.get_attribute('text')
+
+			self.elem = driver.find_element_by_id('cz.seznam.mapy:id/accountName')
+			self.account_name = self.elem.get_attribute('text')
+
+
+			if self.user_name == 'mapytesting2' and self.account_name == 'mapytesting2@seznam.cz':
+				print ('Log in')
+			else:
+			    print('Not log in')
+			
+
+
 
 	def all_elements():
-		elementsList = driver.find_elements_by_xpath("//*");
+		elementsList = driver.find_elements_by_xpath("//*")
 		print(type(elementsList), 'type of elemlist')
 		print(len(elementsList), 'len of elementsList')
 
@@ -584,10 +696,64 @@ def s3():
 
 
 	def offline_maps():
-		elem = driver.find_element_by_xpath(locators_mobile.menu['offline_maps'])
-		elem.click()
+		# elem = driver.find_element_by_xpath(locators_mobile.menu['offline_maps'])
+		# elem.click()
+
+		elem = driver.find_elements_by_class_name('android.widget.Button')
+		for i in elem:
+			if i.text == 'Offline maps':
+				i.click()
+				break
+
+
+
+	def search_menu_item(menu_item):	
+		find = 0
+		while find == 0:
+			elem = driver.find_elements_by_class_name('android.widget.Button')
+			for i in elem:
+				print(i.text)
+				if i.text == menu_item:
+					#print(i.get_attribute('text'))
+					i.text
+					print (i.location)
+					elem = i
+					find = 1
+					break
+			if find == 1:		
+				i.click()		
+			else:
+				TouchAction(driver).press(x=driver.get_window_size()['width']/2, y=driver.get_window_size()['height']/2 - 20).move_to(x=driver.get_window_size()['width']/2, y=driver.get_window_size()['height']/2 - 50).release().perform()
+
+
+
+
+
+
+
 
 	def search_maps(country):	
+		find = 0
+		while find == 0:
+			elem = driver.find_elements_by_id('cz.seznam.mapy:id/offlineCountryTitle')
+			for i in elem:
+				print(i.text)
+				if i.text == country:
+					#print(i.get_attribute('text'))
+					i.text
+					print (i.location)
+					elem = i
+					find = 1
+					break
+			if find == 1:		
+				TouchAction(driver).tap(x=driver.get_window_size()['width']-40, y=i.location['y']).perform()		
+			else:
+				TouchAction(driver).press(x=driver.get_window_size()['width']/2, y=driver.get_window_size()['height']/2).move_to(x=driver.get_window_size()['width']/2, y=driver.get_window_size()['height']/2 - 20).release().perform()
+				#elem = driver.find_element_by_id('cz.seznam.mapy:id/groupIcon')
+				#TouchAction(driver).press(elem).move_to(x=driver.get_window_size()['width']/2, y=driver.get_window_size()['height']/2 - 20).release().perform()
+
+
+	def search_delete_maps(country):	
 		find = 0
 		while find == 0:
 			elem = driver.find_elements_by_id('cz.seznam.mapy:id/offlineCountryTitle')
@@ -601,24 +767,12 @@ def s3():
 			if find == 1:		
 				TouchAction(driver).tap(x=driver.get_window_size()['width']-40, y=i.location['y']).perform()		
 			else:
-				TouchAction(driver).press(x=driver.get_window_size()['width']/2, y=driver.get_window_size()['height']/2).move_to(x=driver.get_window_size()['width']/2, y=driver.get_window_size()['height']/2 - 20).release().perform()
-
-		#elem = driver.find_element_by_id('android:id/button1')
-		#elem.click()
-
-		#elem = driver.find_element_by_xpath('/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/androidx.appcompat.widget.LinearLayoutCompat/android.widget.FrameLayout/android.widget.ListView/android.widget.RelativeLayout[1]/android.widget.RadioButton')
-		#elem.click()
+				print('no downloaded map')
+				break
 
 
-		#cz.seznam.mapy:id/groupIcon
-		#cz.seznam.mapy:id/offlineCountryDownloadButton
 
-		
-		
 
-		
-		#handle_one_size = driver.get_window_size()
-		#print(handle_one_size)		
 
 
 	def download_map():
@@ -639,6 +793,24 @@ def s3():
 		except:
 			print('map was downloaded')
 				
+
+
+	def delete_map():
+		elem = driver.find_element_by_id('android:id/button1')
+		elem.click()
+
+
+	def check_downloaded_maps():
+		elem = driver.find_elements_by_class_name('android.widget.TextView')
+		print(len(elem), 'len of list')
+		text = elem[1].text
+		print(text)
+
+		if text == 'Downloaded':
+			print ('there are downlod maps')
+		else:
+			print('no downloaded maps')
+		driver.back()		
 
 
 	def check_download():
@@ -679,16 +851,13 @@ def s3():
 	#goToMap()
 
 
-	#timeOut(tick = 2.0)
-	#all_elements()
+	# menu()
 
-	menu()
-
-
-
-	# #all_elements()
+	
 	# offline_maps()
+	# timeOut()
 
+	# print('start search')
 	# search_maps('Bahrain')
 	# download_map()
 
@@ -696,16 +865,183 @@ def s3():
 	# search_maps('Germany')
 	# search_maps('Saxony')
 	# download_map()
+	# driver.back()
+	# driver.back()
 
 
 
-	login()
-	logout()
+	# menu()
+	# offline_maps()
+	# check_downloaded_maps()
+
+
+
+	# menu()
+	# offline_maps()
+
+	# #delete downloaded maps
+	# search_delete_maps('Bahrain')
+	# delete_map()
+	# driver.back()
 	
+
+	# menu()
+	# offline_maps()
+	# search_delete_maps('Germany')
+	# search_delete_maps('Saxony')
+	# delete_map()
+	# driver.back()
+	# driver.back()
+
+
+
+	# menu()
+	# offline_maps()
+	# check_downloaded_maps()
+
+
+
+	# login()
+	# logout()
+	
+
+
+
+
+	Menu().login()
+	LoginPage().user_name('mapytesting2')
+	LoginPage().password('testingmapy')
+	LoginPage().sign_in_button()
+	LoginPage().check_login()
+	timeOut()
+	driver.back()
+	Menu().logout()
+	driver.back()
+
+
+
+	Menu().offline_maps()
+	driver.back()
+	Menu().places_and_routes()
+	driver.back()
+	Menu().activities()
+	driver.back()
+	Menu().route_planning()
+	driver.back()
+	Menu().trips_nearby()
+	driver.back()
+	driver.back()
+	Menu().offline_maps()
+	driver.back()
+	Menu().start_tracker()
+	driver.back()
+	Menu().report_problem()
+	driver.back()
+	Menu().first_aid()
+	driver.back()
+
+	
+
+
+
+	# for i in Menu().buttons():
+	# 	print(i.get_attribute('text'))
+
+
+
+
+	
+
+	# Menu().route_planning()
+	# #select start/end
+	# elem = driver.find_elements_by_id('cz.seznam.mapy:id/routePartRow')
+	# #change start/finish
+	# TouchAction(driver).long_press(elem[0]).move_to(x=360, y=1100).release().perform()
+
+	# #click start
+	# elem[0].click()
+	# #click "select a marker on the map"
+	# elem = driver.find_element_by_xpath('/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout[1]/android.widget.FrameLayout/android.widget.RelativeLayout/androidx.recyclerview.widget.RecyclerView/android.widget.RelativeLayout[1]/android.widget.TextView').click()
+	# #move map 
+	# TouchAction(driver).press(x=driver.get_window_size()['width']/2, y=driver.get_window_size()['height']/2 - 20).move_to(x=driver.get_window_size()['width']/2, y=driver.get_window_size()['height']/2 - 50).release().perform()
+	# #click 'select' button
+	# elem = driver.find_element_by_id('cz.seznam.mapy:id/mapLocationPickSelect').click()
+
+
+
+	# #select start/end
+	# elem = driver.find_elements_by_id('cz.seznam.mapy:id/routePartRow')
+	# #select end 
+	# elem[1].click()
+	# #click "select a marker on the map"
+	# elem = driver.find_element_by_xpath('/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout[1]/android.widget.FrameLayout/android.widget.RelativeLayout/androidx.recyclerview.widget.RecyclerView/android.widget.RelativeLayout[1]/android.widget.TextView').click()
+	# #move map 
+	# TouchAction(driver).press(x=driver.get_window_size()['width']/2, y=driver.get_window_size()['height']/2).move_to(x=driver.get_window_size()['width']/2, y=driver.get_window_size()['height']/2 - 20).release().perform()
+	# #click 'select' button
+	# elem = driver.find_element_by_id('cz.seznam.mapy:id/mapLocationPickSelect').click()
+
+
+
+	# for i in range(5):
+	# 	print('Next button')
+	# 	timeOut()
+	# 	elem = driver.find_element_by_xpath('(//android.widget.ImageButton[@content-desc="Add marker"])[1]').click()
+	# 	elem = driver.find_element_by_xpath('/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout[1]/android.widget.FrameLayout/android.widget.RelativeLayout/androidx.recyclerview.widget.RecyclerView/android.widget.RelativeLayout[1]/android.widget.TextView').click()
+	# 	#timeOut()
+	# 	TouchAction(driver).press(x=driver.get_window_size()['width']/2, y=driver.get_window_size()['height']/2).move_to(x=driver.get_window_size()['width']/2, y=driver.get_window_size()['height']/2 - 20).release().perform()
+	# 	elem = driver.find_element_by_id('cz.seznam.mapy:id/mapLocationPickSelect').click()
+
+
+
+
+
+
+
+
+
+	# #multi action
+	# timeOut()
+	# a1 = TouchAction(driver).press(x=driver.get_window_size()['width']/2 + 10, y=driver.get_window_size()['height']/2).move_to(x=driver.get_window_size()['width']/2, y=driver.get_window_size()['height']/2 - 50).wait(500).release()
+	# a2 = TouchAction(driver).press(x=driver.get_window_size()['width']/2 - 10, y=driver.get_window_size()['height']/2).move_to(x=driver.get_window_size()['width']/2, y=driver.get_window_size()['height']/2 + 50).wait(500).release()
+	
+	# m = MultiAction(driver)
+	# m.add(a1,a2)
+	# m.perform()
+
+
+
+	
+	# #maximaize card
+	# timeOut()
+	# TouchAction(driver).press(x=driver.get_window_size()['width'] / 2, y=driver.get_window_size()['height'] / 2 - 200).perform()
+	
+	# elem = driver.find_element_by_id('cz.seznam.mapy:id/toolbarContainer').click()
+	# elem = driver.find_element_by_id('cz.seznam.mapy:id/expandIcon').click()
+
+	# elem = driver.find_element_by_id('cz.seznam.mapy:id/weatherChart')
+	# TouchAction(driver).long_press(elem).move_to(x=100, y=1200).release().perform()
+
+
+	#tap like simple click
+	#press like long press
+	#release like отпустить
+	#The available events from the spec are: * press * release * moveTo * tap * wait * longPress * cancel * perform
+	#http://appium.io/docs/en/writing-running-appium/touch-actions/
+
+
+
+	
+
+
+
+
+
+
+
+
 
 
 if __name__ == '__main__':
 	s3()
-
 
 

@@ -32,7 +32,7 @@ def nokia():
 	  #"deviceName": "001a38de4d76af",
 	  "deviceName": "Android",
 	  # #emulator
-	  # "udid": "emulator-5558",
+	  # "udid": "emulator-5554",
 	  # # huawei
 	  # "udid": "WTM9K17224913440",
 	  # # huawei
@@ -43,10 +43,13 @@ def nokia():
 	  #"udid": "ZH33C2676B",
 	  # #Redmi 4x
 	  # "udid": "7e25bb67d740",
-	  #Redmi 4x by WIFI
-	  "udid": "192.168.0.188:5555",
+	  # #Redmi 4x by WIFI
+	  # "udid": "192.168.0.188:5555",
 	  #  #Nokia
 	  # "udid": "D1AGAD1762742739",
+	   #S6
+	  "udid": "02157df29b72ad22",
+	  
 	  
 	  "appPackage": "cz.seznam.mapy",
 	  "appWaitActivity": "cz.seznam.mapy.MapActivity",
@@ -60,19 +63,53 @@ def nokia():
 
 
 
-
-
 	print('launched')
+	#driver = webdriver.Remote(f"http://localhost:{port}/wd/hub", desired_cap)
 	#driver = webdriver.Remote("http://localhost:4723/wd/hub", desired_cap)
 	driver = webdriver.Remote("http://localhost:4001/wd/hub", desired_cap)
 	print('start wait')
+	#driver.get("http://www.mapy.cz");
 	driver.implicitly_wait(30)
 	print('end wait')
 
 
 
+	class Menu(object):
+		"""docstring for ClassName"""
+		#def menuButton(self):
+		def __init__(self):	
+			self.elem = driver.find_element_by_id(locators_mobile.map_screen['menu']).click()
+		def offlineMaps(self):
+			self.elem = driver.find_element_by_xpath(locators_mobile.menu['offline_maps']).click()
+
+		def login(self):
+			self.elem = driver.find_element_by_id('cz.seznam.mapy:id/userName')
+			self.account_name = self.elem.get_attribute('text')
+			if self.account_name != 'Log in':
+				print('Already logged in')
+				return
+			self.elem.click()
+			timeOut(tick = 2.0)
+
+
+	class LoginPage(object):
+		def user_name(self, user_name):
+			self.user_name = user_name
+			self.elem = driver.find_element_by_id(locators_mobile.sign_in['email']).send_keys(user_name)
+
+		def password(self, password):
+			self.password = password
+			self.elem = driver.find_element_by_id(locators_mobile.sign_in['password']).send_keys(password)
+
+		def sign_in_button(self):
+			self.elem = driver.find_element_by_xpath(locators_mobile.sign_in['sign_in']).click()	
+									
+			
+
+
+
 	def all_elements():
-		elementsList = driver.find_elements_by_xpath("//*");
+		elementsList = driver.find_elements_by_xpath("//*")
 		print(type(elementsList), 'type of elemlist')
 		print(len(elementsList), 'len of elementsList')
 
@@ -87,6 +124,8 @@ def nokia():
 
 	def menu():
 		elem = driver.find_element_by_id('cz.seznam.mapy:id/menuButton')
+		#elem = driver.find_element_by_id('cz.seznam.mapy:id/mapStyleSwitch')
+		print(elem.size, 'elem size')
 		#elem = driver.find_element_by_xpath('//android.widget.ImageButton[@content-desc="Menu"]')
 
 		# elem = driver.find_element_by_xpath('/hierarchy/android.widget.FrameLayout')
@@ -289,7 +328,6 @@ def nokia():
 		    print('Log in failed')
 
 
-
 	def logout():
 		try:
 			elem = driver.find_element_by_id('cz.seznam.mapy:id/accountName')
@@ -298,8 +336,7 @@ def nokia():
 			elem.click()
 			print('Logout success')
 		except:
-			print('Already Logout')	   
-
+			print('Already Logout')	
 
 
 
@@ -524,22 +561,9 @@ def nokia():
 		elem[0].click()
 
 
-
-
-
-
-
 	def offline_maps():
-		try:
-			elem = driver.find_element_by_xpath(locators_mobile.menu['offline_maps'])
-			elem.click()
-		except:
-			print('should scroll')
-			TouchAction(driver).press(x=driver.get_window_size()['width']/2, y=driver.get_window_size()['height']/2).move_to(x=driver.get_window_size()['width']/2, y=driver.get_window_size()['height']/2 - 50).release().perform()
-			elem = driver.find_element_by_xpath(locators_mobile.menu['offline_maps'])
-			elem.click()
-
-				
+		elem = driver.find_element_by_xpath(locators_mobile.menu['offline_maps'])
+		elem.click()
 
 	def search_maps(country):	
 		find = 0
@@ -555,7 +579,7 @@ def nokia():
 			if find == 1:		
 				TouchAction(driver).tap(x=driver.get_window_size()['width']-40, y=i.location['y']).perform()		
 			else:
-				TouchAction(driver).press(x=driver.get_window_size()['width']/2, y=driver.get_window_size()['height']/2).move_to(x=driver.get_window_size()['width']/2, y=driver.get_window_size()['height']/2 - 50).release().perform()
+				TouchAction(driver).press(x=driver.get_window_size()['width']/2, y=driver.get_window_size()['height']/2).move_to(x=driver.get_window_size()['width']/2, y=driver.get_window_size()['height']/2 - 20).release().perform()
 
 		#elem = driver.find_element_by_id('android:id/button1')
 		#elem.click()
@@ -575,15 +599,58 @@ def nokia():
 		#print(handle_one_size)		
 
 
+	def download_map():
+		elem = driver.find_element_by_id('android:id/button1')
+		elem.click()
+		
+		try:
+			elem = driver.find_element_by_id('cz.seznam.mapy:id/storageCheck')
+			elem.click()
+		except:
+			pass	
+
+		print("downloading...")
+
+		try:
+			while True:
+				elem = driver.find_element_by_id('cz.seznam.mapy:id/overallProgress')	
+		except:
+			print('map was downloaded')
+				
+
+
+	def check_download():
+		pass
+
 
 
 	def launch():
 
 
+		# all_elements()
+
+
+		# #go to map
+		# timeOut(tick = 2.0)
+		# goToMap()
+
+		# all_elements()
+
+
+		# #menu
+		# timeOut(tick = 2.0)
+		# menu()
+
+
+		#login check
+		#login()
+
+
 		handle_one_size = driver.get_window_size()
 		print(handle_one_size)
 
-	
+
+
 	#all_elements()
 	#go to map
 	timeOut(tick = 2.0)
@@ -591,27 +658,42 @@ def nokia():
 
 
 	#timeOut(tick = 2.0)
+	#all_elements()
+
+
+
 	menu()
-	
 
 
 	# #all_elements()
-	# offline_maps()
+	offline_maps()
 
-	# search_maps('Bahrain')
-	# download_map()
+	search_maps('Bahrain')
+	download_map()
 
-	# #download Saxony
-	# search_maps('Germany')
-	# search_maps('Saxony')
-	# download_map()
-
-
+	#download Saxony
+	search_maps('Germany')
+	search_maps('Saxony')
+	download_map()
 
 
 
-	login()
-	logout()
+
+	# login()
+	# logout()
+	
+
+
+
+
+	# Menu().login()
+	# LoginPage().user_name('mapytesting2')
+	# LoginPage().password('testingmapy')
+	# LoginPage().sign_in_button()
+
+
+
+
 
 if __name__ == '__main__':
 	nokia()		

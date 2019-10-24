@@ -10,6 +10,8 @@ from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.common.touch_actions import TouchActions as TouchActionSelenium
 
 
+import threading
+
 
 def s3():
 
@@ -25,8 +27,8 @@ def s3():
 	desired_cap = {
 	  "platformName": "Android",
 	  #"deviceName": "Android Emulator",
-	  #Redmi 4X
-	  "udid": "7e25bb67d740",
+	  # #Redmi 4X
+	  # "udid": "7e25bb67d740",
 	  #Samsung S2
 	  #"deviceName": "001a38de4d76af",
 	  # #Samsung S6
@@ -44,8 +46,8 @@ def s3():
 	  # "udid": "LGD160aa16aa2",
 	  # #Moto
 	  #"udid": "ZH33C2676B",
-	  # #Redmi 4x
-	  # "udid": "7e25bb67d740",
+	  #Redmi 4x
+	  "udid": "7e25bb67d740",
 	  # #Redmi 4x by WIFI
 	  # "udid": "192.168.0.186:5555",
 	  # #Huawei by WIFI
@@ -62,9 +64,17 @@ def s3():
 
 	  #'browserName': 'Chrome',
 	  
-	  "appPackage": "cz.seznam.mapy",
+	  # #mapy.cz
+	  # "appPackage": "cz.seznam.mapy",
+	  # "appWaitActivity": "cz.seznam.mapy.MapActivity",
+	  # "app": "C:\\my\\auto\\mobile\\Mapy_v6.10.0_apkpure.apk",
+
+	  #windy maps
+	  "appPackage": "cz.seznam.windymaps",
 	  "appWaitActivity": "cz.seznam.mapy.MapActivity",
-	  "app": "C:\\my\\auto\\mobile\\Mapy_v6.10.0_apkpure.apk",
+	  "app": "C:\\my\\auto\\mobile\\Windy Maps_v1.1.0_apkpure.com.apk",
+
+	  
 	  "autoGrantPermissions": "true",
 	  "unicodeKeyboard" : "true",
 	  "resetKeyboard" : "true",
@@ -90,6 +100,9 @@ def s3():
 		def __init__(self):	
 			self.elem = driver.find_element_by_id(locators_mobile.map_screen['menu']).click()
 		
+		# def menu(self):
+		# 	self.elem = driver.find_element_by_id(locators_mobile.map_screen['menu']).click()
+
 		def buttons(self):
 			self.elem = driver.find_element_by_id('cz.seznam.mapy:id/content')
 			TouchAction(driver).long_press(self.elem).move_to(x=100, y=100).release().perform()
@@ -143,7 +156,10 @@ def s3():
 				if i.get_attribute('text') == 'Start Tracker':
 					i.click()
 					break
-					
+			
+		def tracker_switch(self):
+			self.all_buttons = self.buttons()
+			self.elem = driver.find_element_by_id(locators_mobile.menu['tracker_switch']).click()			
 
 		def report_problem(self):
 			self.all_buttons = self.buttons()
@@ -169,30 +185,69 @@ def s3():
 					break																								
 
 
-		# #by locators
-		# def offlineMaps(self):
-		# 	self.elem = driver.find_element_by_xpath(locators_mobile.menu['offline_maps']).click()
 
+
+	class Menu_windy(object):
+		"""docstring for ClassName"""
+		#def menuButton(self):
+		def __init__(self):	
+			self.elem = driver.find_element_by_id(locators_mobile.map_screen_windy['menu']).click()
 		
-		# def places_and_routes(self):	
-		# 	self.elem = driver.find_element_by_xpath(locators_mobile.menu['places_and_routes']).click()
+		# def menu(self):
+		# 	self.elem = driver.find_element_by_id(locators_mobile.map_screen['menu']).click()
+
+		def buttons(self):
+			# self.elem = driver.find_element_by_id('cz.seznam.windymaps:id/content')
+			# TouchAction(driver).long_press(self.elem).move_to(x=100, y=100).release().perform()
+
+			self.elements = driver.find_elements_by_class_name('android.widget.Button')
+			return self.elements
+
+		def offline_maps(self):
+			self.all_buttons = self.buttons()
+			for i in self.all_buttons:
+				if i.get_attribute('text') == 'Offline maps':
+					i.click()
+					break
+
+		def my_maps(self):
+			self.all_buttons = self.buttons()
+			for i in self.all_buttons:
+				if i.get_attribute('text') == 'My maps':
+					i.click()
+					break
+					
+
+		def route_planning(self):
+			self.all_buttons = self.buttons()
+			for i in self.all_buttons:
+				if i.get_attribute('text') == 'Route planning':
+					i.click()
+					break
 
 
-
-		# def activities(self):	
-		# 	self.elem = driver.find_element_by_xpath(locators_mobile.menu['activities']).click()
-
-
-		# def report(self):	
-		# 	self.elem = driver.find_element_by_xpath(locators_mobile.menu['report']).click()
-
-		# def route_planning(self):	
-		# 	self.elem = driver.find_element_by_xpath(locators_mobile.menu['route_planning']).click()
-
-		# def trips(self):	
-		# 	self.elem = driver.find_element_by_xpath(locators_mobile.menu['trips']).click()
+		def report_problem(self):
+			self.all_buttons = self.buttons()
+			for i in self.all_buttons:
+				if i.get_attribute('text') == 'Report a problem':
+					i.click()
+					break
 
 
+		def first_aid(self):
+			self.all_buttons = self.buttons()
+			for i in self.all_buttons:
+				if i.get_attribute('text') == 'First aid':
+					i.click()
+					break
+					
+
+		def about(self):
+			self.all_buttons = self.buttons()
+			for i in self.all_buttons:
+				if i.get_attribute('text') == 'About':
+					i.click()
+					break	
 
 
 		def login(self):
@@ -238,8 +293,49 @@ def s3():
 				print ('Log in')
 			else:
 			    print('Not log in')
-			
+	
+	
 
+	class SearchPage_windy(object):
+		def category_search(self):
+			self.elem = driver.find_element_by_xpath(locators_mobile.search_windy['category']).click()
+
+		def clear_search(self):
+			self.elem = driver.find_element_by_id(locators_mobile.search_windy['close_button']).click()
+
+
+		def search_input(self, search_word, *args):
+			self.elem = driver.find_element_by_id(locators_mobile.search_windy['search_input'])
+			self.elem.send_keys(search_word)
+			if len(args) == 0:
+				driver.execute_script('mobile: performEditorAction', {'action': 'search'})
+			else:
+				self.elem = driver.find_element_by_xpath(locators_mobile.search_windy['naseptavac_result']).click()
+
+
+		def history_search(self):
+			try:
+				#self.elem = driver.find_element_by_xpath(locators_mobile.search_windy['history_first_item'])
+				self.elem = driver.find_element_by_xpath('/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout[2]/android.widget.FrameLayout[2]/android.widget.FrameLayout/android.widget.RelativeLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.RelativeLayout/androidx.recyclerview.widget.RecyclerView/android.view.ViewGroup[3]/android.widget.TextView').click()
+			except:
+				print('no history')	
+
+
+	class Tracker(object):
+		def start(self):
+			self.elem = driver.find_element_by_id(locators_mobile.tracker['start']).click()
+
+		def tracker_button(self):
+			self.elem = driver.find_element_by_id(locators_mobile.tracker['tracker_button']).click()
+
+		def expand(self):
+			self.elem = driver.find_element_by_id(locators_mobile.tracker['expand']).click()
+
+		def discard(self):
+			self.elem = driver.find_element_by_id(locators_mobile.tracker['discard']).click()
+
+		def discard_discard(self):
+			self.elem = driver.find_element_by_id(locators_mobile.tracker['discard_discard']).click()
 
 
 	def all_elements():
@@ -274,6 +370,11 @@ def s3():
 		#print(dir(elem))
 		elem.click()
 		print('menu clicked')
+
+
+
+	def menu_windy():
+		elem = driver.find_element_by_id('cz.seznam.windymaps:id/menuButton').click()
 
 
 	def goToMap():
@@ -312,6 +413,12 @@ def s3():
 		print('searchButton clicked')
 
 
+	def search_button_windy():
+		elem = driver.find_element_by_id('cz.seznam.windymaps:id/searchButton')
+		elem.click()
+		print('searchButton clicked')	
+
+
 
 	def search_input(search_word):
 
@@ -347,10 +454,9 @@ def s3():
 
 	def login():
 		timeOut()
-		#TouchAction(driver).tap(x=410, y=562).perform()
-		#TouchAction(driver).tap(x=driver.get_window_size()['width'] * 0.5694, y=driver.get_window_size()['height'] * 0.439).perform()
 
 		elem = driver.find_element_by_id('cz.seznam.mapy:id/userName')
+		#elem = driver.find_element_by_id('cz.seznam.windymaps:id/userName')
 		account_name = elem.get_attribute('text')
 		if account_name != 'Log in':
 			print('Already logged in')
@@ -413,7 +519,10 @@ def s3():
 		#"2"
 		driver.press_keycode(9)
 
+
+
 		#enter
+
 		driver.press_keycode(66)
 
 
@@ -450,9 +559,11 @@ def s3():
 
 
 		elem = driver.find_element_by_id('cz.seznam.mapy:id/userName')
+		#elem = driver.find_element_by_id('cz.seznam.windymaps:id/userName')
 		user_name = elem.get_attribute('text')
 
 		elem = driver.find_element_by_id('cz.seznam.mapy:id/accountName')
+		#elem = driver.find_element_by_id('cz.seznam.windymaps:id/accountName')
 		account_name = elem.get_attribute('text')
 
 
@@ -460,6 +571,115 @@ def s3():
 			print ('Log in success')
 		else:
 		    print('Log in failed')
+
+
+
+	def login_windy():
+		timeOut()
+		elem = driver.find_element_by_id('cz.seznam.windymaps:id/userName')
+		account_name = elem.get_attribute('text')
+		if account_name != 'Log in':
+			print('Already logged in')
+			return
+		elem.click()
+		timeOut(tick = 2.0)
+
+		timeOut(tick = 3.0)
+		print ("loaded ?")
+		
+		contexts = driver.contexts
+		print(contexts)
+
+		current = driver.current_context
+		print(current)
+
+		##!! for Android 4, web view
+		#login
+
+		# handle_one_size = driver.get_window_size()
+		# width = 0.233 * handle_one_size['width']
+		# height = 0.522 * handle_one_size['height']
+		# TouchAction(driver).tap(x=width, y=height).perform()
+
+
+		elem = driver.find_element_by_xpath('/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.view.ViewGroup/android.webkit.WebView/android.webkit.WebView/android.view.View/android.view.View/android.view.View/android.view.View[1]/android.widget.EditText').click()
+		print ('clicked')
+
+
+		timeOut(tick = 2.0)
+		#"mapy"
+		driver.press_keycode(41)
+		driver.press_keycode(29)
+		driver.press_keycode(44)
+		driver.press_keycode(53)
+
+		#"testing"
+		driver.press_keycode(48)
+		driver.press_keycode(33)
+		driver.press_keycode(47)
+		driver.press_keycode(48)
+		driver.press_keycode(37)
+		driver.press_keycode(42)
+		driver.press_keycode(35)
+		timeOut()
+
+		#"2"
+		driver.press_keycode(9)
+
+		# #enter
+		# driver.press_keycode(66)
+		elem = driver.find_element_by_xpath('/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.view.ViewGroup/android.webkit.WebView/android.webkit.WebView/android.view.View/android.view.View/android.view.View/android.view.View[2]/android.widget.EditText').click()
+
+
+
+		timeOut(tick = 3.0)
+
+		#"testing"
+		driver.press_keycode(48)
+		driver.press_keycode(33)
+		driver.press_keycode(47)
+		driver.press_keycode(48)
+		driver.press_keycode(37)
+		driver.press_keycode(42)
+		driver.press_keycode(35)
+
+
+		#"mapy"
+		driver.press_keycode(41)
+		driver.press_keycode(29)
+		driver.press_keycode(44)
+		driver.press_keycode(53)
+
+		timeOut()
+
+		#enter
+		driver.press_keycode(66)
+
+
+
+
+		timeOut()
+		print('try open menu')
+		menu_windy()
+		print('opened')
+		
+		elem = driver.find_element_by_id('cz.seznam.windymaps:id/userName')
+		user_name = elem.get_attribute('text')
+		#print(user_name)
+
+		
+		elem = driver.find_element_by_id('cz.seznam.windymaps:id/accountName')
+		account_name = elem.get_attribute('text')
+		#print(account_name)
+
+
+		if account_name == 'mapytesting2':
+			print ('Log in success')
+		else:
+		    print('Log in failed')
+
+
+
 
 
 	def logout():
@@ -471,6 +691,18 @@ def s3():
 			print('Logout success')
 		except:
 			print('Already Logout')	
+
+
+
+	def logout_windy():
+		try:
+			elem = driver.find_element_by_id('cz.seznam.windymaps:id/accountName')
+			elem.click()
+			elem = driver.find_element_by_xpath('/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout[1]/android.widget.RelativeLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.view.ViewGroup/android.widget.ScrollView/android.widget.LinearLayout/android.widget.LinearLayout/android.widget.Button')
+			elem.click()
+			print('Logout success')
+		except:
+			print('Already Logout')			
 
 
 
@@ -737,7 +969,7 @@ def s3():
 		while find == 0:
 			elem = driver.find_elements_by_id('cz.seznam.mapy:id/offlineCountryTitle')
 			for i in elem:
-				print(i.text)
+				#print(i.text)
 				if i.text == country:
 					#print(i.get_attribute('text'))
 					i.text
@@ -751,6 +983,32 @@ def s3():
 				TouchAction(driver).press(x=driver.get_window_size()['width']/2, y=driver.get_window_size()['height']/2).move_to(x=driver.get_window_size()['width']/2, y=driver.get_window_size()['height']/2 - 20).release().perform()
 				#elem = driver.find_element_by_id('cz.seznam.mapy:id/groupIcon')
 				#TouchAction(driver).press(elem).move_to(x=driver.get_window_size()['width']/2, y=driver.get_window_size()['height']/2 - 20).release().perform()
+
+
+
+
+	def search_maps_windy(country):	
+		find = 0
+		while find == 0:
+			elem = driver.find_elements_by_id('cz.seznam.windymaps:id/offlineCountryTitle')
+			for i in elem:
+				print(i.text)
+				if i.text == country:
+					#print(i.get_attribute('text'))
+					i.text
+					print (i.location)
+					elem = i
+					find = 1
+					break
+			if find == 1:		
+				TouchAction(driver).tap(x=driver.get_window_size()['width']-40, y=i.location['y']).perform()		
+			else:
+				TouchAction(driver).press(x=driver.get_window_size()['width']/2, y=driver.get_window_size()['height']/2).move_to(x=driver.get_window_size()['width']/2, y=driver.get_window_size()['height']/2 - 40).release().perform()
+				#elem = driver.find_element_by_id('cz.seznam.mapy:id/groupIcon')
+				#TouchAction(driver).press(elem).move_to(x=driver.get_window_size()['width']/2, y=driver.get_window_size()['height']/2 - 20).release().perform()
+
+
+
 
 
 	def search_delete_maps(country):	
@@ -770,6 +1028,24 @@ def s3():
 				print('no downloaded map')
 				break
 
+
+
+	def search_delete_maps_windy(country):	
+		find = 0
+		while find == 0:
+			elem = driver.find_elements_by_id('cz.seznam.windymaps:id/offlineCountryTitle')
+			for i in elem:
+				if i.get_attribute('text') == country:
+					print(i.get_attribute('text'))
+					print (i.location)
+					elem = i
+					find = 1
+					break
+			if find == 1:		
+				TouchAction(driver).tap(x=driver.get_window_size()['width']-40, y=i.location['y']).perform()		
+			else:
+				print('no downloaded map')
+				break
 
 
 
@@ -792,6 +1068,27 @@ def s3():
 				elem = driver.find_element_by_id('cz.seznam.mapy:id/overallProgress')	
 		except:
 			print('map was downloaded')
+
+
+
+
+	def download_map_windy():
+		elem = driver.find_element_by_id('android:id/button1')
+		elem.click()
+		
+		try:
+			elem = driver.find_element_by_id('cz.seznam.windymaps:id/storageCheck')
+			elem.click()
+		except:
+			pass	
+
+		print("downloading...")
+
+		try:
+			while True:
+				elem = driver.find_element_by_id('cz.seznam.windymaps:id/overallProgress')	
+		except:
+			print('map was downloaded')		
 				
 
 
@@ -851,51 +1148,90 @@ def s3():
 	#goToMap()
 
 
+
+
+	# search_button_windy()
+	# SearchPage_windy().category_search()
+	# SearchPage_windy().clear_search()
+	# SearchPage_windy().search_input('Prague')
+	# timeOut()
+	# driver.back()
+	# driver.back()
+	# search_button_windy()
+	# SearchPage_windy().search_input('Na', 'naseptavac')
+	# timeOut()
+	# driver.back()
+	# driver.back()
+	search_button_windy()
+	SearchPage_windy().history_search()
+
+
+
+
+
+
+	
 	# menu()
+	# login()
+	# logout()
+
+	# menu_windy()
+	# login_windy ()
+	# logout_windy()
+
 
 	
 	# offline_maps()
 	# timeOut()
 
 	# print('start search')
-	# search_maps('Bahrain')
-	# download_map()
+	# # search_maps('Bahrain')
+	# # download_map()
+	# search_maps_windy('Bahrain')
+	# download_map_windy()
 
-	# #download Saxony
-	# search_maps('Germany')
-	# search_maps('Saxony')
-	# download_map()
-	# driver.back()
-	# driver.back()
+	# # #download Saxony
+	# # search_maps_windy('Germany')
+	# # search_maps_windy('Saxony')
+	# # download_map_windy()
+	# # # search_maps('Germany')
+	# # # search_maps('Saxony')
+	# # # download_map()
+	# # driver.back()
+	# # driver.back()
 
 
 
-	# menu()
+	# #menu()
+	# menu_windy()
 	# offline_maps()
 	# check_downloaded_maps()
 
 
 
-	# menu()
+
+	# #menu()
+	# menu_windy()
 	# offline_maps()
 
 	# #delete downloaded maps
-	# search_delete_maps('Bahrain')
+	# search_delete_maps_windy('Bahrain')
 	# delete_map()
 	# driver.back()
 	
 
-	# menu()
-	# offline_maps()
-	# search_delete_maps('Germany')
-	# search_delete_maps('Saxony')
-	# delete_map()
-	# driver.back()
-	# driver.back()
+	# # menu()
+	# # offline_maps()
+	# # search_delete_maps('Germany')
+	# # search_delete_maps('Saxony')
+	# # delete_map()
+	# # driver.back()
+	# # driver.back()
 
 
 
-	# menu()
+	# #menu()
+	# menu_windy()
 	# offline_maps()
 	# check_downloaded_maps()
 
@@ -908,37 +1244,63 @@ def s3():
 
 
 
-	Menu().login()
-	LoginPage().user_name('mapytesting2')
-	LoginPage().password('testingmapy')
-	LoginPage().sign_in_button()
-	LoginPage().check_login()
-	timeOut()
-	driver.back()
-	Menu().logout()
-	driver.back()
+	# Menu().login()
+	# LoginPage().user_name('mapytesting2')
+	# LoginPage().password('testingmapy')
+	# LoginPage().sign_in_button()
+	# LoginPage().check_login()
+	# timeOut()
+	# driver.back()
+	# Menu().logout()
+	# driver.back()
 
 
 
-	Menu().offline_maps()
-	driver.back()
-	Menu().places_and_routes()
-	driver.back()
-	Menu().activities()
-	driver.back()
-	Menu().route_planning()
-	driver.back()
-	Menu().trips_nearby()
-	driver.back()
-	driver.back()
-	Menu().offline_maps()
-	driver.back()
-	Menu().start_tracker()
-	driver.back()
-	Menu().report_problem()
-	driver.back()
-	Menu().first_aid()
-	driver.back()
+	# Menu().tracker_switch()
+	# driver.back()
+	# Menu().start_tracker()
+	# Tracker().start()
+	# Tracker().tracker_button()
+	# Tracker().expand()
+	# Tracker().discard()
+	# Tracker().discard_discard()
+
+
+
+	# Menu().offline_maps()
+	# driver.back()
+	# Menu().places_and_routes()
+	# driver.back()
+	# Menu().activities()
+	# driver.back()
+	# Menu().route_planning()
+	# driver.back()
+	# Menu().trips_nearby()
+	# driver.back()
+	# driver.back()
+	# Menu().offline_maps()
+	# driver.back()
+	# Menu().report_problem()
+	# driver.back()
+	# Menu().first_aid()
+	# driver.back()
+
+
+
+	# Menu_windy().offline_maps()
+	# driver.back()
+	# Menu_windy().route_planning()
+	# driver.back()
+	# Menu_windy().my_maps()
+	# driver.back()
+	# Menu_windy().first_aid()
+	# driver.back()
+	# Menu_windy().report_problem()
+	# driver.back()
+	# Menu_windy().about()
+	# driver.back()
+
+
 
 	
 
@@ -1040,8 +1402,18 @@ def s3():
 
 
 
-
 if __name__ == '__main__':
 	s3()
+	# t1 = threading.Thread(target=s3, args=[4000])
+	# t2 = threading.Thread(target=s3, args=[4001])
+
+
+	# t1.start()
+	# t2.start()
+
+	# t1.join()
+	# t2.join()
+
+
 
 

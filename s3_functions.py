@@ -94,6 +94,14 @@ def s3():
 
 
 
+	def search_by_locator(locator: dict , key: str):
+		if locator[key][0] == 'xpath':
+			return driver.find_element_by_xpath(locator[key][1])
+		else:
+			return driver.find_element_by_id(locator[key][1])	
+
+
+
 	class Menu(object):
 		"""docstring for ClassName"""
 		#def menuButton(self):
@@ -317,6 +325,7 @@ def s3():
 			try:
 				#self.elem = driver.find_element_by_xpath(locators_mobile.search_windy['history_first_item'])
 				self.elem = driver.find_element_by_xpath('/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout[2]/android.widget.FrameLayout[2]/android.widget.FrameLayout/android.widget.RelativeLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.RelativeLayout/androidx.recyclerview.widget.RecyclerView/android.view.ViewGroup[3]/android.widget.TextView').click()
+
 			except:
 				print('no history')	
 
@@ -336,6 +345,50 @@ def s3():
 
 		def discard_discard(self):
 			self.elem = driver.find_element_by_id(locators_mobile.tracker['discard_discard']).click()
+
+
+
+	class Tracker_windy(object):
+		def tracker_button(self):
+			self.elem = driver.find_element_by_id(locators_mobile.tracker_windy['start_screen']).click()
+
+		def start(self):
+			self.elem = driver.find_element_by_id(locators_mobile.tracker_windy['start']).click()
+
+		def expand(self):
+			self.elem = driver.find_element_by_id(locators_mobile.tracker_windy['expand']).click()
+
+		def discard(self):
+			self.elem = driver.find_element_by_id(locators_mobile.tracker_windy['discard']).click()
+
+		def discard_discard(self):
+			self.elem = driver.find_element_by_id(locators_mobile.tracker_windy['discard_discard']).click()	
+
+
+	class RoutePlanning_windy(object):
+		"""docstring for RoutePlanning_windy"""
+		def start(self):
+			self.elem = search_by_locator(locators_mobile.planning_windy, 'start').click()
+
+		def end(self):
+			self.elem = search_by_locator(locators_mobile.planning_windy, 'end').click()	
+	
+		def search(self, search_word: str):
+			self.elem = search_by_locator(locators_mobile.planning_windy, 'search')
+			self.elem.send_keys(search_word)
+			#enter
+			driver.press_keycode(66)
+			#chhose first result
+			self.elem =driver.find_element_by_xpath('/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout[1]/android.widget.FrameLayout/android.widget.RelativeLayout/androidx.recyclerview.widget.RecyclerView/android.view.ViewGroup[1]/android.widget.TextView[1]')
+			self.elem.click()
+
+		def my_location(self):
+			self.elem = search_by_locator(locators_mobile.planning_windy, 'my_location').click()	
+
+
+			
+
+
 
 
 	def all_elements():
@@ -1149,6 +1202,19 @@ def s3():
 
 
 
+	# Tracker_windy().tracker_button()
+	# Tracker_windy().start()
+	# Tracker_windy().expand()
+	# Tracker_windy().discard()
+	# Tracker_windy().discard_discard()
+
+
+	# Menu_windy().route_planning()
+	# RoutePlanning_windy().start()
+	# RoutePlanning_windy().search('Prazsky Hrad')
+	# RoutePlanning_windy().end()
+	# RoutePlanning_windy().my_location()
+
 
 	# search_button_windy()
 	# SearchPage_windy().category_search()
@@ -1162,9 +1228,12 @@ def s3():
 	# timeOut()
 	# driver.back()
 	# driver.back()
-	search_button_windy()
-	SearchPage_windy().history_search()
-
+	# search_button_windy()
+	# SearchPage_windy().history_search()
+	# driver.back()
+	# driver.toggle_wifi()
+	# search_button_windy()
+	# SearchPage_windy().search_input('Prague')
 
 
 
@@ -1175,65 +1244,65 @@ def s3():
 	# login()
 	# logout()
 
-	# menu_windy()
-	# login_windy ()
-	# logout_windy()
+	menu_windy()
+	login_windy ()
+	logout_windy()
 
 
 	
-	# offline_maps()
-	# timeOut()
+	offline_maps()
+	timeOut()
 
-	# print('start search')
-	# # search_maps('Bahrain')
-	# # download_map()
-	# search_maps_windy('Bahrain')
+	print('start search')
+	# search_maps('Bahrain')
+	# download_map()
+	search_maps_windy('Bahrain')
+	download_map_windy()
+
+	# #download Saxony
+	# search_maps_windy('Germany')
+	# search_maps_windy('Saxony')
 	# download_map_windy()
-
-	# # #download Saxony
-	# # search_maps_windy('Germany')
-	# # search_maps_windy('Saxony')
-	# # download_map_windy()
-	# # # search_maps('Germany')
-	# # # search_maps('Saxony')
-	# # # download_map()
-	# # driver.back()
-	# # driver.back()
+	# # search_maps('Germany')
+	# # search_maps('Saxony')
+	# # download_map()
+	# driver.back()
+	# driver.back()
 
 
 
-	# #menu()
-	# menu_windy()
+	#menu()
+	menu_windy()
+	offline_maps()
+	check_downloaded_maps()
+
+
+
+
+	#menu()
+	menu_windy()
+	offline_maps()
+
+	#delete downloaded maps
+	search_delete_maps_windy('Bahrain')
+	delete_map()
+	driver.back()
+	
+
+	# menu()
 	# offline_maps()
-	# check_downloaded_maps()
-
-
-
-
-	# #menu()
-	# menu_windy()
-	# offline_maps()
-
-	# #delete downloaded maps
-	# search_delete_maps_windy('Bahrain')
+	# search_delete_maps('Germany')
+	# search_delete_maps('Saxony')
 	# delete_map()
 	# driver.back()
-	
-
-	# # menu()
-	# # offline_maps()
-	# # search_delete_maps('Germany')
-	# # search_delete_maps('Saxony')
-	# # delete_map()
-	# # driver.back()
-	# # driver.back()
+	# driver.back()
 
 
 
-	# #menu()
-	# menu_windy()
-	# offline_maps()
-	# check_downloaded_maps()
+	#menu()
+	menu_windy()
+	offline_maps()
+	check_downloaded_maps()
 
 
 

@@ -9,7 +9,7 @@ more-itertools==6.0.0
 multiprocess==0.70.7
 Pillow==5.4.1
 pluggy==0.8.1
-py==1.7.0
+py==1.10.0
 pyperclip==1.7.0
 pytest==4.0.1
 pytest-base-url==1.4.1
